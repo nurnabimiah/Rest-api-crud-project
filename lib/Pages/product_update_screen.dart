@@ -1,17 +1,19 @@
+
 import 'package:api_crud_project/Pages/productGriviewPage.dart';
-import 'package:api_crud_project/Style/style.dart';
+import 'package:api_crud_project/RestApi/restClient.dart';
 import 'package:flutter/material.dart';
 
-import '../RestApi/restClient.dart';
+import '../Style/style.dart';
 
-class ProductCreatePage extends StatefulWidget {
-  const ProductCreatePage({Key? key}) : super(key: key);
+class ProductUpdateScreen extends StatefulWidget {
+  final Map productItem;
+   ProductUpdateScreen(this.productItem);
 
   @override
-  State<ProductCreatePage> createState() => _ProductCreatePageState();
+  State<ProductUpdateScreen> createState() => _ProductUpdateScreenState();
 }
 
-class _ProductCreatePageState extends State<ProductCreatePage> {
+class _ProductUpdateScreenState extends State<ProductUpdateScreen> {
   Map<String, String> FormValues = {
     "Img": "",
     "ProductCode": "",
@@ -28,6 +30,23 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     });
   }
 
+  //for update
+
+  @override
+  void initState() {
+
+    setState(() {
+      FormValues.update("Img", (value) => widget.productItem["Img"]);
+      FormValues.update("ProductCode", (value) => widget.productItem["ProductCode"]);
+      FormValues.update("ProductName", (value) => widget.productItem["ProductName"]);
+      FormValues.update("Qty", (value) => widget.productItem["Qty"]);
+      FormValues.update("TotalPrice", (value) =>widget.productItem["TotalPrice"]);
+      FormValues.update("UnitPrice", (value) => widget.productItem["UnitPrice"]);
+
+    });
+
+
+  }
 
   FormOnSubmit() async {
     if(FormValues["Img"]!.length ==0){
@@ -53,8 +72,12 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
       setState((){
         loading = true;
       });
-      await ProductCreateRequest(FormValues);
-      Navigator.push(context, MaterialPageRoute(builder: (builder) => ProductGridViewScreen()));
+      await ProductUpdateRequest(FormValues,widget.productItem['_id']);
+      
+      Navigator.pushAndRemoveUntil
+        (context,
+          MaterialPageRoute(builder: (context)=> ProductGridViewScreen() )
+          , (route) => false);
 
       setState((){
         loading = false;
@@ -64,12 +87,12 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
 
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Product'),
+        title: Text('Update Product',),
+        centerTitle: true,
       ),
       body: Stack(
         children: [
@@ -83,6 +106,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
 
                   //..............productName..............
                   TextFormField(
+                    initialValue: FormValues['ProductName'],
                     onChanged: (TextValue) {InputOnChange("ProductName", TextValue);},
                     decoration: AppInputDecoration('Product Name'),
                   ),
@@ -94,6 +118,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
 
                   //..............productCode..............
                   TextFormField(
+                      initialValue: FormValues['ProductCode'],
                       onChanged: (TextValue) {InputOnChange( "ProductCode", TextValue);},
                       decoration: AppInputDecoration('Product Code')),
                   SizedBox(
@@ -105,6 +130,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
 
 
                   TextFormField(
+                      initialValue: FormValues['Img'],
                       onChanged: (TextValue) {InputOnChange("Img", TextValue);},
                       decoration: AppInputDecoration('Product Image')),
                   SizedBox(
@@ -115,6 +141,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
                   //..............productUnitPrice..............
 
                   TextFormField(
+                      initialValue: FormValues['UnitPrice'],
                       onChanged: (TextValue) {InputOnChange("UnitPrice", TextValue);},
                       decoration: AppInputDecoration('Unit Price')),
                   SizedBox(
@@ -124,6 +151,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
                   //..............totalPrice..............
 
                   TextFormField(
+                      initialValue: FormValues['TotalPrice'],
                       onChanged: (TextValue) {InputOnChange("TotalPrice", TextValue);},
                       decoration: AppInputDecoration('Total Price')),
                   SizedBox(

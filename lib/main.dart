@@ -1,5 +1,6 @@
 import 'package:api_crud_project/Pages/productCreate_page.dart';
 import 'package:api_crud_project/Pages/productGriviewPage.dart';
+import 'package:api_crud_project/Style/style.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Api crud operation',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.teal,
       ),
       home: ProductGridViewScreen()
     );
