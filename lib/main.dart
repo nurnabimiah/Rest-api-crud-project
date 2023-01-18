@@ -1,4 +1,5 @@
 import 'package:api_crud_project/Pages/productCreate_page.dart';
+import 'package:api_crud_project/Pages/productGriviewPage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,11 +13,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Api crud operation',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ProductCreatePage()
+      home: ProductGridViewScreen()
     );
   }
 }
